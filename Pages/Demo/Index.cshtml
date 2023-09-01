@@ -1,0 +1,22 @@
+﻿@page "{organization}"
+
+@model Sbt.Pages.Demo.IndexModel
+
+@{
+    ViewData["Title"] = Model.Organization;
+}
+
+<h1>@Model.Organization</h1>
+
+<table class="table">
+    <tbody>
+        @foreach (var item in Model.DivisionsList)
+        {
+            <tr>
+                <td>
+                    <a asp-page="/Standings/Index" asp-route-organization="@Model.Organization" asp-route-id="@item.ID">@Html.DisplayFor(modelItem => item.League) @Html.DisplayFor(modelItem => item.Division)</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

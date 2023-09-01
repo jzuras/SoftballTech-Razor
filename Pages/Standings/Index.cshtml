@@ -1,0 +1,133 @@
+﻿@page "{organization}/{id}"
+
+@model Sbt.Pages.Standings.IndexModel
+
+@{
+    ViewData["Title"] = Model.Organization;
+}
+
+<h1>@Model.Organization - Standings & Schedule</h1>
+
+<p />
+<hr />
+<h4>Standings:</h4>
+<div style="text-align:left;">
+    <span style="float:left;">League: &emsp;<b>@Model.Divisions.League</b></span>
+    <span style="float:right;">Updated: &emsp;<b>@Model.Divisions.Updated.ToString("MM/dd/yyyy h:mm tt")</b></span>
+    <span style="display:block; text-align:center;">Division: &emsp;<b>@Model.Divisions.Division</b></span>
+</div>
+<p />
+<table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Wins</th>
+        <th>Losses</th>
+        <th>Ties</th>
+        @if (@Model.ShowOvertimeLosses == true)
+        {
+            <th>OT Losses</th>
+        }
+        <th>Win %</th>
+        <th>GB</th>
+        <th>RS</th>
+        <th>RA</th>
+        <th>Forfeits</th>
+      </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Standings)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Wins)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Losses)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ties)
+                </td>
+                @if (@Model.ShowOvertimeLosses == true)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OvertimeLosses)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Percentage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GB)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RunsScored)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RunsAgainst)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Forfeits)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr/>
+<h4>Schedule:</h4>
+<table>
+    <thead>
+        <tr>
+            <th>Visitor</th>
+            <th>Score</th>
+            <th>Home</th>
+            <th>Score</th>
+            <th>Date</th>
+            <th>Field</th>
+            <th>Time</th>
+            <th colspan="3">Rescheduled</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var game in Model.Schedules)
+        {
+            <tr>
+                @if (game.Visitor.ToUpper().StartsWith("WEEK"))
+                {
+                    <td style="color:red; text-decoration:underline; font-weight:bold">@game.Visitor.ToUpper()</td>
+                }
+                else
+                {
+                    <td>@game.Visitor</td>
+                }
+                <td>@game.VisitorScore</td>
+                <td>@game.Home</td>
+                <td>@game.HomeScore</td>
+                <td>@game.Day?.ToString("MMM-dd")</td>
+                <td>@game.Field</td>
+                <td>@game.Time?.ToString("h:mm tt")</td>
+
+                @if (!string.IsNullOrEmpty(game.MakeupField))
+                {
+                    <td>@game.MakeupDay?.ToString("MMM-dd")</td>
+                    <td>@game.MakeupField</td>
+                    <td>@game.MakeupTime?.ToString("h:mm tt")</td>
+                }
+                else
+                {
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                }
+
+            </tr>
+
+        }
+    </tbody>
+
+</table>
+

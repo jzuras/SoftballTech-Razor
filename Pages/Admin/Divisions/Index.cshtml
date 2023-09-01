@@ -1,0 +1,64 @@
+﻿@page "{organization}"
+
+@model Sbt.Pages.Admin.Divisions.IndexModel
+
+@{
+    ViewData["Title"] = "Admin - Divisions";
+}
+
+<h1>Divisions</h1>
+<h4>Organization: @Html.Raw(Model.Organization)</h4>
+<hr />
+
+<p>
+    <a asp-page="Create" asp-route-organization="@Model.Organization">Create New Division</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DivisionsList[0].ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DivisionsList[0].League)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DivisionsList[0].Division)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DivisionsList[0].Updated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DivisionsList[0].Locked)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.DivisionsList)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.League)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Division)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Updated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Locked)
+            </td>
+            <td>
+                    <a asp-page="./Edit" asp-route-id="@item.ID" asp-route-organization="@Model.Organization">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.ID" asp-route-organization="@Model.Organization">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.ID" asp-route-organization="@Model.Organization">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

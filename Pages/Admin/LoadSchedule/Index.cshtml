@@ -1,0 +1,40 @@
+﻿@page "{organization}"
+
+@model LoadScheduleModel
+
+@{
+    ViewData["Title"] = "Admin - Load Schedule";
+}
+
+<h1>Load Schedule</h1>
+<h4>Organization: @Html.Raw(Model.Organization)</h4>
+<hr />
+
+<h5>Choose League and File </h5>
+<p />
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row mb-3">
+                <label asp-for="League" class="col-2 col-form-label" aria-label="League" ></label>
+                <input asp-for="League" class="col-3" aria-required="true" />
+                <span asp-validation-for="League" class="text-danger col-6" />
+            </div>
+           <div class="form-group row mb-4">
+                <label asp-for="ScheduleFile" class="col-2 col-form-label" aria-label="Schedule File"></label>
+                <input type="file" asp-for="ScheduleFile" class="form-control-file col-3" aria-required="true" />
+                <span asp-validation-for="ScheduleFile" class="text-danger col-6" />
+            </div>
+            <div class="form-group">
+        <input type="submit" value="Process Schedule File" class="btn btn-primary" @((Model.DisableSubmitButton) ? "disabled" : "") />
+            </div>
+        </form>
+        <p/>
+<p></p>
+@if (!string.IsNullOrEmpty(Model.Result))
+{
+    <div class="alert alert-primary">@Html.Raw(Model.Result)</div>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

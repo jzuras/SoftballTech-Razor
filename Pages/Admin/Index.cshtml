@@ -1,0 +1,33 @@
+﻿@page
+@model Sbt.Pages.Admin.IndexModel
+
+@{
+    ViewData["Title"] = "Admin";
+}
+
+<h1>Admin Functions</h1>
+<hr />
+
+Organization:
+<select id="selectOrg" onchange="updateLinks()">
+    @foreach (var organization in Model.OrganizationList)
+    {
+        <option value="@organization">@organization</option>
+    }
+</select>
+<p />
+<p>
+    <a id="scheduleLink" href="/Admin/LoadSchedule/Demo Softball">Load Schedule File</a>
+</p>
+<p>
+    <a id="divisionLink" href="/Admin/Divisions/Demo Softball">Edit Divisions</a>
+</p>
+<p></p>
+
+<script>
+    function updateLinks() {
+        var selectedValue = $('#selectOrg').val();
+        $('#divisionLink').attr('href', '/Admin/Divisions/' + selectedValue);
+        $('#scheduleLink').attr('href', '/Admin/LoadSchedule/' + selectedValue);
+    }
+</script>
