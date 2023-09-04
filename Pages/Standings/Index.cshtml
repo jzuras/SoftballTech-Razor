@@ -10,14 +10,15 @@
 
 <p />
 <hr />
-<h4>Standings:</h4>
-<div style="text-align:left;">
-    <span style="float:left;">League: &emsp;<b>@Model.Divisions.League</b></span>
-    <span style="float:right;">Updated: &emsp;<b>@Model.Divisions.Updated.ToString("MM/dd/yyyy h:mm tt")</b></span>
-    <span style="display:block; text-align:center;">Division: &emsp;<b>@Model.Divisions.Division</b></span>
-</div>
-<p />
-<table class="table">
+<div class="table-responsive">
+    <h4>Standings:</h4>
+    <div style="text-align:left;">
+        <span style="float:left;">League: &emsp;<b>@Model.Divisions.League</b></span>
+        <span style="float:right;">Updated: &emsp;<b>@Model.Divisions.Updated.ToString("MM/dd/yyyy h:mm tt")</b></span>
+        <span style="display:block; text-align:center;">Division: &emsp;<b>@Model.Divisions.Division</b></span>
+    </div>
+    <p />
+    <table class="table">
     <thead>
       <tr>
         <th>Name</th>
@@ -76,58 +77,58 @@
         }
     </tbody>
 </table>
+</div>
 
 <hr/>
-<h4>Schedule:</h4>
-<table>
-    <thead>
-        <tr>
-            <th>Visitor</th>
-            <th>Score</th>
-            <th>Home</th>
-            <th>Score</th>
-            <th>Date</th>
-            <th>Field</th>
-            <th>Time</th>
-            <th colspan="3">Rescheduled</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var game in Model.Schedules)
-        {
+<div class="table-responsive">
+    <h4>Schedule:</h4>
+    <table class="table">
+        <thead>
             <tr>
-                @if (game.Visitor.ToUpper().StartsWith("WEEK"))
-                {
-                    <td style="color:red; text-decoration:underline; font-weight:bold">@game.Visitor.ToUpper()</td>
-                }
-                else
-                {
-                    <td>@game.Visitor</td>
-                }
-                <td>@game.VisitorScore</td>
-                <td>@game.Home</td>
-                <td>@game.HomeScore</td>
-                <td>@game.Day?.ToString("MMM-dd")</td>
-                <td>@game.Field</td>
-                <td>@game.Time?.ToString("h:mm tt")</td>
-
-                @if (!string.IsNullOrEmpty(game.MakeupField))
-                {
-                    <td>@game.MakeupDay?.ToString("MMM-dd")</td>
-                    <td>@game.MakeupField</td>
-                    <td>@game.MakeupTime?.ToString("h:mm tt")</td>
-                }
-                else
-                {
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                }
-
+                <th>Visitor</th>
+                <th>Score</th>
+                <th>Home</th>
+                <th>Score</th>
+                <th>Date</th>
+                <th>Field</th>
+                <th>Time</th>
+                <th colspan="3">Rescheduled</th>
             </tr>
+        </thead>
+        <tbody>
+            @foreach (var game in Model.Schedules)
+            {
+                <tr>
+                    @if (game.Visitor.ToUpper().StartsWith("WEEK"))
+                    {
+                        <td style="color:red; text-decoration:underline; font-weight:bold">@game.Visitor.ToUpper()</td>
+                    }
+                    else
+                    {
+                        <td>@game.Visitor</td>
+                    }
+                    <td>@game.VisitorScore</td>
+                    <td>@game.Home</td>
+                    <td>@game.HomeScore</td>
+                    <td>@game.Day?.ToString("MMM-dd")</td>
+                    <td>@game.Field</td>
+                    <td>@game.Time?.ToString("h:mm tt")</td>
 
-        }
-    </tbody>
-
-</table>
+                    @if (!string.IsNullOrEmpty(game.MakeupField))
+                    {
+                        <td>@game.MakeupDay?.ToString("MMM-dd")</td>
+                        <td>@game.MakeupField</td>
+                        <td>@game.MakeupTime?.ToString("h:mm tt")</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 

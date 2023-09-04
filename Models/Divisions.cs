@@ -11,21 +11,21 @@ namespace Sbt
     [PrimaryKey(nameof(Organization), nameof(ID))]
     public class Divisions
     {
-        [RegularExpression(@"^[a-zA-Z]+[a-zA-Z0-9-_]*$")] 
+        [RegularExpression(@"^[a-zA-Z0-9]+[a-zA-Z0-9-_]*$")] 
         public string Organization { get; set; } = string.Empty;
 
         [Required]
         [Comment("short string version used in URLs")]
         [DisabledOnAzure(ErrorMessage = "Division mods are disbaled on Azure.")]
-        [RegularExpression(@"^[a-zA-Z]+[a-zA-Z0-9-_]*$")] 
+        [RegularExpression(@"^[a-zA-Z0-9]+[a-zA-Z0-9-_]*$")] 
         public string ID { get; set; }
 
         [Required]
-        [RegularExpression(@"^[a-zA-Z]+[a-zA-Z0-9-_]*$")] 
+        [RegularExpression(@"^[a-zA-Z0-9]+[ a-zA-Z0-9-_]*$")] 
         public string League { get; set; }
 
         [Required]
-        [RegularExpression(@"^[a-zA-Z]+[a-zA-Z0-9-_]*$")] 
+        [RegularExpression(@"^[a-zA-Z0-9]+[ a-zA-Z0-9-_]*$")] 
         public string Division { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy h:mm tt}", ApplyFormatInEditMode = false)]
