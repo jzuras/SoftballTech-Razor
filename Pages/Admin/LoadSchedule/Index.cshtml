@@ -14,12 +14,17 @@
 <p />
         <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group row mb-3">
+            <div class="form-group row mb-4">
                 <label asp-for="League" class="col-sm-2 col-4 col-form-label" aria-label="League" ></label>
                 <input asp-for="League" class="col-sm-3 col-5" aria-required="true" />
                 <span asp-validation-for="League" class="text-danger col-sm-12 col-md" />
             </div>
-           <div class="form-group row mb-4">
+            <div class="form-group row mb-3 align-items-center">
+                <label asp-for="UsesDoubleHeaders" class="col-sm-2 col-4 col-form-label" aria-label="Uses DoubleHeaders">Uses Double-headers</label>
+                <input class="form-check-input" asp-for="UsesDoubleHeaders" class="col-sm-3 col-5" />
+                <span asp-validation-for="UsesDoubleHeaders" class="text-danger col-sm-12 col-md" />
+            </div>
+            <div class="form-group row mb-4">
                 <label asp-for="ScheduleFile" class="col-sm-2 col-4 col-form-label" aria-label="Schedule File"></label>
                 <input type="file" asp-for="ScheduleFile" class="form-control-file col-sm-3 col-5" aria-required="true" />
                 <span asp-validation-for="ScheduleFile" class="text-danger col-sm-12 col-md" />
@@ -34,6 +39,10 @@
 {
     <div class="alert alert-primary">@Html.Raw(Model.Result)</div>
 }
+
+<div>
+    <a asp-page="/Admin/Index" asp-route-organization="@Model.Organization">Back to Admin</a>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

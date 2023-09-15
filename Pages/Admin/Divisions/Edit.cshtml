@@ -8,11 +8,10 @@
 
 <h1>Edit Division</h1>
 
-<h4>Organization: @Model.Divisions.Organization</h4>
+<h4>Organization: @Html.Raw(Model.Organization)</h4>
 <hr />
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Divisions.Organization" />
             <input type="hidden" asp-for="Divisions.ID" />
             <div class="form-group row mb-3">
                 <label asp-for="Divisions.ID" class="col-3 col-form-label"></label>

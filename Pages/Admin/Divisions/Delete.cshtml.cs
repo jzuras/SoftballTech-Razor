@@ -13,6 +13,12 @@ namespace Sbt.Pages.Admin.Divisions
 
         public async Task<IActionResult> OnPostAsync()
         {
+            // submit button should be disbled if true, but protect against other entries
+            if (base.DisableSubmitButton == true)
+            {
+                return Page();
+            }
+
             if (base._context.Divisions == null)
             {
                 return NotFound();

@@ -8,6 +8,11 @@
 
   <ItemGroup>
     <Compile Remove="Data\DbInitializer.cs" />
+    <Compile Remove="Pages\Scores\create.cshtml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\Scores\create.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

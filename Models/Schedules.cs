@@ -1,6 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
+// Schedules table handles the day/time/field (original and possible make-ups) for a game.
+// This is also where scores are kept. Home and Visitor are string names of the teams,
+// while the corresponding ID's are the values in the Standings table.
+// There is also a ViewModel class here, used for reporting scores.
+
 namespace Sbt
 {
     [PrimaryKey(nameof(Organization), nameof(GameID))]
@@ -27,8 +32,10 @@ namespace Sbt
 
         public short VisitorID { get; set; }
 
+        // [Required] and [RegularExpression] attributes are only needed on ViewModel
         public short? HomeScore { get; set; }
 
+        // [Required] and [RegularExpression] attributes are only needed on ViewModel
         public short? VisitorScore { get; set; }
 
         public bool HomeForfeit { get; set; }
@@ -42,5 +49,22 @@ namespace Sbt
         public DateTime? MakeupTime { get; set; }
 
         public string? MakeupField { get; set; }
+    }
+
+    public class SchedulesVM
+    {
+        public int GameID { get; set; }
+
+        [Required]
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = "Please enter a valid integer value.")]
+        public short? HomeScore { get; set; }
+
+        [Required]
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = "Please enter a valid integer value.")]
+        public short? VisitorScore { get; set; }
+
+        public bool HomeForfeit { get; set; }
+
+        public bool VisitorForfeit { get; set; }
     }
 }

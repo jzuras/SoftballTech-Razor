@@ -10,31 +10,44 @@ namespace Sbt.Pages.Admin.Divisions
 
         // Note - using base class version of OnGetAsync()
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync(string organization)
         {
+            // submit button should be disbled if true, but protect against other entries
+            if (base.DisableSubmitButton == true)
+            {
+                return Page();
+            }
+
             if (organization == null)
             {
                 return Page();
             }
 
-            base.Divisions.Organization = base.Organization = organization;
-            
+            base.Organization = organization;
+
             if (!ModelState.IsValid || base._context.Divisions == null || base.Divisions == null)
             {
                 return Page();
             }
 
             // need to make sure new division ID is unique
-            if (this.DivisionIDExists(base.Divisions.Organization, base.Divisions.ID))
+            if (this.DivisionIDExists(organization, base.Divisions.ID))
             {
                 ModelState.AddModelError(string.Empty, "This Division ID already exists.");
                 return Page();
             }
 
-            base.Divisions.Updated = base.GetEasternTime();
-            base._context.Divisions.Add(base.Divisions);
-            await base._context.SaveChangesAsync();
+            // handle overposting
+            var emptyDivision = new Sbt.Divisions();
+            emptyDivision.Organization = organization;
+            if( await TryUpdateModelAsync<Sbt.Divisions>(
+                emptyDivision, "divisions",
+                d => d.ID, d => d.League, d => d.Division))
+            {
+                emptyDivision.Updated = base.GetEasternTime();
+                base._context.Divisions.Add(emptyDivision);
+                await base._context.SaveChangesAsync();
+            }
 
             return RedirectToPage("./Index", new { organization = organization });
         }

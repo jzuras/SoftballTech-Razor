@@ -4,6 +4,8 @@
 // but this line will still allow for null derefernce warnings
 #nullable disable annotations
 
+// Standings table handles the cumulative records for the teams.
+
 namespace Sbt
 {
     [PrimaryKey(nameof(Organization), nameof(Division), nameof(Name))]

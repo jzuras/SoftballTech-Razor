@@ -1,31 +1,37 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 // Razor does not play well with nullable reference types,
 // but this line will still allow for null derefernce warnings
 #nullable disable annotations
 
+// Divisions table handles the link from an ID to a more useful, longer description,
+// as well as the last updated time.
+// Example usage:
+// ID = FC01
+// League = Fall Coed
+// Division = 1
+
 namespace Sbt
 {
     [PrimaryKey(nameof(Organization), nameof(ID))]
     public class Divisions
     {
-        [RegularExpression(@"^[a-zA-Z0-9]+[a-zA-Z0-9-_]*$")] 
+        [RegularExpression(@"^[a-zA-Z0-9]+[ a-zA-Z0-9-_]*$")] 
         public string Organization { get; set; } = string.Empty;
 
         [Required]
         [Comment("short string version used in URLs")]
         [DisabledOnAzure(ErrorMessage = "Division mods are disbaled on Azure.")]
-        [RegularExpression(@"^[a-zA-Z0-9]+[a-zA-Z0-9-_]*$")] 
+        [RegularExpression(@"^[a-zA-Z0-9]+[a-zA-Z0-9-_]*$", ErrorMessage = "Allowed: digits, letters, dash, and underline.")]
         public string ID { get; set; }
 
         [Required]
-        [RegularExpression(@"^[a-zA-Z0-9]+[ a-zA-Z0-9-_]*$")] 
+        [RegularExpression(@"^[a-zA-Z0-9]+[ a-zA-Z0-9-_]*$", ErrorMessage = "Allowed: digits, letters, dash, underline, and spaces.")]
         public string League { get; set; }
 
         [Required]
-        [RegularExpression(@"^[a-zA-Z0-9]+[ a-zA-Z0-9-_]*$")] 
+        [RegularExpression(@"^[a-zA-Z0-9]+[ a-zA-Z0-9-_]*$", ErrorMessage = "Allowed: digits, letters, dash, underline, and spaces.")]
         public string Division { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy h:mm tt}", ApplyFormatInEditMode = false)]

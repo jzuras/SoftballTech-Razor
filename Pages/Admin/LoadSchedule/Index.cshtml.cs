@@ -18,6 +18,9 @@ namespace Sbt.Pages.Admin.LoadSchedule
         [DisplayName("Schedule File")]
         public IFormFile ScheduleFile { get; set; } = default!;
 
+        [BindProperty]
+        public bool UsesDoubleHeaders { get; set; } = false;
+
         public string Result { get; set; } = string.Empty;
 
         public LoadScheduleModel(Sbt.Data.DemoContext context) : base(context)
@@ -26,9 +29,14 @@ namespace Sbt.Pages.Admin.LoadSchedule
 
         // Note - using base class version of OnGetAsync()
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync(string organization)
         {
+            // submit button should be disbled if true, but protect against other entries
+            if (base.DisableSubmitButton == true)
+            {
+                return Page();
+            }
+
             List<string> lines = new();
             
             this.Result = string.Empty;
@@ -38,10 +46,12 @@ namespace Sbt.Pages.Admin.LoadSchedule
                 return Page();
             }
 
+            base.Organization = organization;
+
             // NOTE - Game IDs are unique only within an Organization, simply for aesthetic reasons
             // (just so the number doesn't become huge over time). 
             // However, I was unable to find a database-agnostic way to do this within EF Core,
-            // which means it will be handled here, when I populate the Schedule table
+            // which means it will be handled here, when I populate the Schedule table.
 
             // get max game id within this organization
             var maxCurrentGameID = await base._context.Schedules
@@ -135,14 +145,33 @@ namespace Sbt.Pages.Admin.LoadSchedule
                         Home = teams[homeTeamID - 1],
                         HomeForfeit = false,
                         HomeID = homeTeamID,
-                        HomeScore = 0,
                         Time = gameTime,
                         Visitor = teams[visitorTeamID - 1],
                         VisitorForfeit = false,
                         VisitorID = visitorTeamID,
-                        VisitorScore = 0
                     };
                     base._context.Schedules.Add(scheduleRow);
+
+                    if (this.UsesDoubleHeaders)
+                    {
+                        // add a second game 90 minutes later, swapping home/visitor
+                        scheduleRow = new Schedules
+                        {
+                            Organization = organization,
+                            GameID = maxGameID++,
+                            Day = gameDate,
+                            Division = League,
+                            Field = field,
+                            Home = teams[visitorTeamID - 1],
+                            HomeForfeit = false,
+                            HomeID = visitorTeamID,
+                            Time = gameTime.AddMinutes(90),
+                            Visitor = teams[homeTeamID - 1],
+                            VisitorForfeit = false,
+                            VisitorID = homeTeamID,
+                        };
+                        base._context.Schedules.Add(scheduleRow);
+                    }
 
                     // keep track of first and last games to show when done processing file,
                     // as a way to show user that the entire schedule was processed.

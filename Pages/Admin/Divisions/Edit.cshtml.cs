@@ -11,10 +11,14 @@ namespace Sbt.Pages.Admin.Divisions
 
         // Note - using base class version of OnGetAsync()
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync(string organization)
+        public async Task<IActionResult> OnPostAsync(string organization, string id)
         {
+            // submit button should be disbled if true, but protect against other entries
+            if (base.DisableSubmitButton == true)
+            {
+                return Page();
+            }
+
             if (organization == null)
             {
                 return Page();
@@ -27,31 +31,26 @@ namespace Sbt.Pages.Admin.Divisions
                 return Page();
             }
 
-            base.Divisions.Updated = base.GetEasternTime();
-            base._context.Attach(Divisions).State = EntityState.Modified;
+            // handle overposting
+            var divisionToUpdate = await this._context.Divisions.FirstOrDefaultAsync(
+                d => d.Organization == organization && d.ID == id);
 
-            try
+            if (divisionToUpdate == null)
             {
-                await base._context.SaveChangesAsync();
+                return Page();
             }
-            catch (DbUpdateConcurrencyException)
+
+            if (await TryUpdateModelAsync<Sbt.Divisions>(
+                divisionToUpdate, "divisions",
+                d => d.League, d => d.Division, d => d.Locked))
             {
-                if (!DivisionsExists(base.Divisions.ID, base.Divisions.Organization))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                divisionToUpdate.Organization = organization;
+                divisionToUpdate.ID = id;
+                divisionToUpdate.Updated = base.GetEasternTime();
+                await base._context.SaveChangesAsync();
             }
 
             return RedirectToPage("./Index", new { organization = organization });
-        }
-
-        private bool DivisionsExists(string id, string organization)
-        {
-            return base._context.Divisions.Any(e => e.Organization == organization && e.ID == id);
         }
     }
 }
