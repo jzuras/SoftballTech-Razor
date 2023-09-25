@@ -10,24 +10,29 @@
 <h4>Organization: @Html.Raw(Model.Organization)</h4>
 <hr />
 
-<h5>Choose League and File </h5>
+<h5>Choose Division and File </h5>
 <p />
         <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group row mb-4">
-                <label asp-for="League" class="col-sm-2 col-4 col-form-label" aria-label="League" ></label>
-                <input asp-for="League" class="col-sm-3 col-5" aria-required="true" />
-                <span asp-validation-for="League" class="text-danger col-sm-12 col-md" />
+                <label asp-for="DivisionID" class="col-sm-3 col-4 col-form-label" aria-label="Division ID" >Division ID</label>
+                <input asp-for="DivisionID" class="col-sm-3 col-5" aria-required="true" />
+                <span asp-validation-for="DivisionID" class="text-danger col-sm-12 col-md" />
             </div>
             <div class="form-group row mb-3 align-items-center">
-                <label asp-for="UsesDoubleHeaders" class="col-sm-2 col-4 col-form-label" aria-label="Uses DoubleHeaders">Uses Double-headers</label>
+                <label asp-for="UsesDoubleHeaders" class="col-sm-3 col-4 col-form-label" aria-label="Uses DoubleHeaders">Uses Double-headers</label>
                 <input class="form-check-input" asp-for="UsesDoubleHeaders" class="col-sm-3 col-5" />
                 <span asp-validation-for="UsesDoubleHeaders" class="text-danger col-sm-12 col-md" />
             </div>
             <div class="form-group row mb-4">
-                <label asp-for="ScheduleFile" class="col-sm-2 col-4 col-form-label" aria-label="Schedule File"></label>
+                <label asp-for="ScheduleFile" class="col-sm-3 col-4 col-form-label" aria-label="Schedule File"></label>
                 <input type="file" asp-for="ScheduleFile" class="form-control-file col-sm-3 col-5" aria-required="true" />
                 <span asp-validation-for="ScheduleFile" class="text-danger col-sm-12 col-md" />
+            </div>
+            <div class="form-group row mb-3 align-items-center">
+            <label asp-for="ClearScheduleFirst" class="col-sm-3 col-4 col-form-label" aria-label="Clear Schedule First?">Clear Schedule First?</label>
+                <input class="form-check-input" asp-for="ClearScheduleFirst" class="col-sm-3 col-5" />
+                <span asp-validation-for="ClearScheduleFirst" class="text-danger col-sm-12 col-md" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Process Schedule File" class="btn btn-primary" @((Model.DisableSubmitButton) ? "disabled" : "") />
