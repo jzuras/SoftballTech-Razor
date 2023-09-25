@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sbt.csproj" />
+    <ProjectReference Include="..\Sbt\Sbt.csproj" />
   </ItemGroup>
 
 </Project>

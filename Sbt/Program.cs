@@ -13,7 +13,8 @@ namespace Sbt
             builder.Services.AddRazorPages();
 
             builder.Services.AddDbContext<DemoContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING") ?? throw new InvalidOperationException("Connection string 'DemoContext' not found.")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DemoContext") ?? throw new InvalidOperationException("Connection string 'DemoContext' not found.")));
+                //options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING") ?? throw new InvalidOperationException("Connection string 'DemoContext' not found.")));
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
