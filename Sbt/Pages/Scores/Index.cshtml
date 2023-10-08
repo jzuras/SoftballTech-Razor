@@ -3,7 +3,7 @@
 @model Sbt.Pages.Scores.IndexModel
 
 @{
-    ViewData["Title"] = Model.Schedules[0].Organization;
+    ViewData["Title"] = Model.Schedules[0].Organization + " Report Scores";
 }
 
 <h1>@Model.Schedules[0].Organization - Report Scores</h1>
@@ -16,7 +16,7 @@
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Schedules[0].Division)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-10" id="divisionID">
             @Html.DisplayFor(model => model.Schedules[0].Division)
         </dd>
     </dl>
@@ -24,21 +24,27 @@
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Schedules[0].Day)
         </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Schedules[0].Day)
+        <dd class="col-sm-10" id="day">
+            @{
+                var day = Model.Schedules[0]?.Day;
+                if (day.HasValue)
+                {
+                    @day.Value.ToString("MMM-dd")
+                }
+            }
         </dd>
     </dl>
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Schedules[0].Field)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-10" id="field">
             @Html.DisplayFor(model => model.Schedules[0].Field)
         </dd>
     </dl>
 </div>
 <form method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div asp-validation-summary="ModelOnly" class="text-danger" id="validationSummary"></div>
 
     @{
         var index = 0;
@@ -55,7 +61,7 @@
     }
 
     <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
+        <input type="submit" value="Save" class="btn btn-primary" id="saveButton" />
     </div>
 </form>
 

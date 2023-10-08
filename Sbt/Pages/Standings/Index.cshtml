@@ -3,7 +3,7 @@
 @model Sbt.Pages.Standings.IndexModel
 
 @{
-    ViewData["Title"] = Model.Divisions.Organization;
+    ViewData["Title"] = Model.Divisions.Organization + " Standings";
 }
 
 <h1>@Model.Divisions.Organization - Standings & Schedule</h1>
@@ -14,11 +14,11 @@
     <h4>Standings:</h4>
     <div style="text-align:left;">
         <span style="float:left;">League: &emsp;<b>@Model.Divisions.League</b></span>
-        <span style="float:right;">Updated: &emsp;<b>@Model.Divisions.Updated.ToString("MM/dd/yyyy h:mm tt")</b></span>
+        <span style="float:right;" id="spanUpdated">Updated: &emsp;<b>@Model.Divisions.Updated.ToString("MM/dd/yyyy h:mm tt")</b></span>
         <span style="display:block; text-align:center;">Division: &emsp;<b>@Model.Divisions.Division</b></span>
     </div>
     <p />
-    <table class="table">
+    <table class="table standings-table">
     <thead>
       <tr>
         <th>Name</th>
@@ -92,7 +92,7 @@
             </select>
     </h4>
     Click on Team Name to Report Scores
-    <table class="table">
+    <table class="table schedule-table">
         <thead>
             <tr>
                 <th>Visitor</th>

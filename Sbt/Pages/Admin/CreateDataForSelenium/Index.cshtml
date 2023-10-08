@@ -1,0 +1,28 @@
+﻿@page
+
+@model Sbt.Pages.Admin.CreateDataForSelenium.IndexModel
+
+@{
+    ViewData["Title"] = "Admin - Create / Delete Data for Selenium";
+}
+
+<h1>Create / Delete Data for Selenium</h1>
+<hr />
+
+<p />
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" id="btnCreateData" name="handler" value="CreateDataAsync">Create Data for Selenium</button>
+                <button type="submit" class="btn btn-warning mx-3" id="btnDeleteData" name="handler" value="DeleteDataAsync">Delete Data for Selenium</button>
+            </div>
+        </form>
+        <p/>
+<p></p>
+@if (!string.IsNullOrEmpty(Model.Result))
+{
+    <div class="alert alert-primary">@Html.Raw(Model.Result)</div>
+}
+
+<div>
+    <a asp-page="/Admin/Index" asp-route-organization="@Model.Organization">Back to Admin</a>
+</div>
