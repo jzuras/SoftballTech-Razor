@@ -174,7 +174,13 @@ namespace Sbt.Pages.Scores
                 visitorTeam.ForfeitsCharged++;
             }
 
-            if (sched.HomeScore > sched.VisitorScore)
+            if (sched.VisitorForfeit && sched.HomeForfeit)
+            {
+                // special case - not a tie - counted as losses for both team
+                homeTteam.Losses++;
+                visitorTeam.Losses++;
+            }
+            else if (sched.HomeScore > sched.VisitorScore)
             {
                 homeTteam.Wins++;
                 visitorTeam.Losses++;
@@ -203,7 +209,7 @@ namespace Sbt.Pages.Scores
                 }
                 else
                 {
-                    team.Percentage = (float)team.Wins / (team.Wins + team.Losses);
+                    team.Percentage = (float)team.Wins / (team.Wins + team.Losses + team.Ties);
                 }
             }
         }
