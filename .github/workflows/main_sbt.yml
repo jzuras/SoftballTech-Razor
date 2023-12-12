@@ -54,4 +54,4 @@ jobs:
           app-name: 'Sbt'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B836034002CD490C8C5B576FB2EE0D07 }}
-          package: /myapp
+          package: .
