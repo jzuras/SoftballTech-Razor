@@ -103,6 +103,9 @@ namespace Sbt.Pages.Scores
 
             await this.ReCalcStandings(this.Schedules[0].Organization, this.Schedules[0].Division);
             await this._context.SaveChangesAsync();
+            await this._context.Divisions
+                .Where(d => d.Organization == organization && d.ID == divisionID)
+                .ExecuteUpdateAsync(s => s.SetProperty(c => c.Updated, c => this.GetEasternTime()));
 
             return RedirectToPage("/Standings/Index", 
                 new { organization = this.Schedules[0].Organization, id = this.Schedules[0].Division });
@@ -127,13 +130,8 @@ namespace Sbt.Pages.Scores
                 .OrderBy(s => s.GameID)
                 .ToListAsync() ;
 
-            var division = await this._context.Divisions.FirstOrDefaultAsync(
-                d => d.Organization == organization && d.ID == divisionID);
-
-            division!.Updated = this.GetEasternTime();
-
             // zero-out standings
-            foreach( var stand in standings) 
+            foreach ( var stand in standings) 
             {
                 stand.Forfeits = stand.Losses = stand.OvertimeLosses = stand.Ties = stand.Wins = 0;
                 stand.RunsAgainst = stand.RunsScored = stand.ForfeitsCharged = 0;
